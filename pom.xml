@@ -6,10 +6,12 @@
 
     <groupId>com.wthfeng</groupId>
     <artifactId>kurdran</artifactId>
+    <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <servlet-version>3.1.0</servlet-version>
         <slf4j-version>1.7.25</slf4j-version>
+        <javax-inject>1</javax-inject>
     </properties>
 
 
@@ -25,6 +27,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>${javax-inject}</version>
         </dependency>
 
 

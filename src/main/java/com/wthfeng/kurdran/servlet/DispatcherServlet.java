@@ -1,5 +1,6 @@
 package com.wthfeng.kurdran.servlet;
 
+import com.wthfeng.kurdran.servlet.handler.RequestHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,9 +19,15 @@ public class DispatcherServlet extends HttpServlet{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+
+
+
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         logger.debug("servlet init start ...");
+        initStrategies();
+
 
     }
 
@@ -29,8 +36,21 @@ public class DispatcherServlet extends HttpServlet{
         ApplicationContent content = new ApplicationContent();
         content.setRequest(req);
         content.setResponse(resp);
-        //doDispatch();
+        doDispatch(content);
 
+    }
+
+    private void initStrategies(){
+        initRequestHandler();
+
+    }
+
+    private void initRequestHandler(){
+        new RequestHandler();
+
+    }
+
+    private void doDispatch(ApplicationContent content){
 
 
     }
