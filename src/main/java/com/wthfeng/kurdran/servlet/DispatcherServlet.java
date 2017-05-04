@@ -20,9 +20,6 @@ public class DispatcherServlet extends HttpServlet{
     private Logger logger = LoggerFactory.getLogger(getClass());
 
 
-
-
-
     @Override
     public void init(ServletConfig config) throws ServletException {
         logger.debug("servlet init start ...");

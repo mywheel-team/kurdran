@@ -1,10 +1,14 @@
 package com.wthfeng.kurdran.beans.factory;
 
 import com.wthfeng.kurdran.beans.Bean;
-import test.HelloAction;
+import com.wthfeng.kurdran.beans.BeanImpl;
+import com.wthfeng.test.HelloAction;
 
 import javax.inject.Singleton;
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,20 +18,21 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class BeanFactoryImpl implements BeanFactory {
 
-    private Map<String,Bean> beans = new ConcurrentHashMap<>();
+    private Map<String, Bean<?>> beans = new ConcurrentHashMap<>();
 
 
-     {
-        Class<HelloAction> clazz = HelloAction.class;
+    {
+        /**
+         * 模拟bean工厂
+         */
+        Class clazz = HelloAction.class;
         Annotation[] annotations = clazz.getAnnotations();
-        Bean bean = new Bean();
-        bean.setAnnotations(annotations);
+        List<Annotation> annotationList = Arrays.asList(annotations);
         String beanName = clazz.getSimpleName();
-        beanName = beanName.substring(0,1).toLowerCase()+beanName.substring(1);
-        bean.setName(beanName);
-        bean.setScope(Singleton.class);
-        bean.setBeanClass(clazz);
+        beanName = beanName.substring(0, 1).toLowerCase() + beanName.substring(1);
+        Bean bean = new BeanImpl(beanName, Singleton.class, clazz, annotationList);
         beans.put(beanName,bean);
+
     }
 
     @Override
@@ -36,24 +41,32 @@ public class BeanFactoryImpl implements BeanFactory {
     }
 
     @Override
-    public Bean getBean(Class requiredType) {
-       for(Bean bean:beans.values()){
-           System.out.println(bean.getBeanClass());
-           if(requiredType.equals(bean.getBeanClass())){
-               return bean;
-           }
-       }
-       return null;
+    public List<Bean<?>> getBeans(Class<? extends Annotation> annotation) {
+        List<Bean<?>> list = new ArrayList<>();
+        for (Bean<?> bean:beans.values()) {
+            List<Class<? extends Annotation>> annotationList = bean.getAnnotations();
+            if(annotationList.contains(annotation)){
+                list.add(bean);
+            }
+        }
+        return list;
     }
 
-    public void getActionAnnotation(Class<Annotation> annotationClass){
-
-
+    @Override
+    public <T>Bean<T> getBean(Class<T> requiredType) {
+        for (Bean bean : beans.values()) {
+            if (requiredType.equals(bean.getBeanType())) {
+                return bean;
+            }
+        }
+        return null;
     }
+
+
 
     public static void main(String[] args) {
-       BeanFactoryImpl factory = new BeanFactoryImpl();
-        System.out.println(factory.getBean(HelloAction.class));
+        BeanFactory factory = new BeanFactoryImpl();
+
     }
 
 }
