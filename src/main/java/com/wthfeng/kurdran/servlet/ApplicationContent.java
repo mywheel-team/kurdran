@@ -1,5 +1,7 @@
 package com.wthfeng.kurdran.servlet;
 
+import com.wthfeng.kurdran.render.Renderer;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +15,15 @@ public class ApplicationContent {
     private HttpServletRequest request;
     private HttpServletResponse response;
     private ServletContext context;
+    private Renderer renderer;
+
+    public Renderer getRenderer() {
+        return renderer;
+    }
+
+    public void setRenderer(Renderer renderer) {
+        this.renderer = renderer;
+    }
 
     public HttpServletRequest getRequest() {
         return request;

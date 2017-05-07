@@ -15,7 +15,7 @@ public @interface RequestMapping {
     /**
      * the request url
      */
-    String value() default "";
+    String[] value() default {};
 
     /**
      *the request method

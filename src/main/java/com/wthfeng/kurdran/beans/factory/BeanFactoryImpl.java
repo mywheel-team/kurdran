@@ -1,15 +1,17 @@
 package com.wthfeng.kurdran.beans.factory;
 
+import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 import com.wthfeng.kurdran.beans.Bean;
 import com.wthfeng.kurdran.beans.BeanImpl;
+import com.wthfeng.kurdran.servlet.annotation.Action;
+import com.wthfeng.kurdran.servlet.annotation.RequestMapping;
 import com.wthfeng.test.HelloAction;
 
 import javax.inject.Singleton;
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -31,7 +33,7 @@ public class BeanFactoryImpl implements BeanFactory {
         String beanName = clazz.getSimpleName();
         beanName = beanName.substring(0, 1).toLowerCase() + beanName.substring(1);
         Bean bean = new BeanImpl(beanName, Singleton.class, clazz, annotationList);
-        beans.put(beanName,bean);
+        beans.put(beanName, bean);
 
     }
 
@@ -43,9 +45,9 @@ public class BeanFactoryImpl implements BeanFactory {
     @Override
     public List<Bean<?>> getBeans(Class<? extends Annotation> annotation) {
         List<Bean<?>> list = new ArrayList<>();
-        for (Bean<?> bean:beans.values()) {
+        for (Bean<?> bean : beans.values()) {
             List<Class<? extends Annotation>> annotationList = bean.getAnnotations();
-            if(annotationList.contains(annotation)){
+            if (annotationList.contains(annotation)) {
                 list.add(bean);
             }
         }
@@ -53,7 +55,7 @@ public class BeanFactoryImpl implements BeanFactory {
     }
 
     @Override
-    public <T>Bean<T> getBean(Class<T> requiredType) {
+    public <T> Bean<T> getBean(Class<T> requiredType) {
         for (Bean bean : beans.values()) {
             if (requiredType.equals(bean.getBeanType())) {
                 return bean;
@@ -63,9 +65,12 @@ public class BeanFactoryImpl implements BeanFactory {
     }
 
 
-
     public static void main(String[] args) {
         BeanFactory factory = new BeanFactoryImpl();
+
+        Bean hello = factory.getBean("helloAction");
+        Class<?> clz = hello.getBeanType();
+        Method[] mths = clz.getDeclaredMethods();
 
     }
 

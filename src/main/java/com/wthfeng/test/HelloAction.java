@@ -28,7 +28,8 @@ public class HelloAction {
 
     @RequestMapping(value = "/hello",method = RequestMethod.GET)
     public String getHello() {
+
         String name = helloService.getHello();
-        return "hello " + name;
+        return "hello "+name;
     }
 }

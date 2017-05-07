@@ -8,6 +8,6 @@ import com.wthfeng.kurdran.servlet.ApplicationContent;
  */
 public interface Handler {
 
-    void handle(ApplicationContent content);
+    void handle(final  ApplicationContent content,final RequestResult requestResult);
 
 }
