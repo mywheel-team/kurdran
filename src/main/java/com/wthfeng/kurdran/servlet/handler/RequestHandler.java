@@ -2,7 +2,6 @@ package com.wthfeng.kurdran.servlet.handler;
 
 import com.wthfeng.kurdran.beans.Bean;
 import com.wthfeng.kurdran.beans.factory.BeanFactoryImpl;
-import com.wthfeng.kurdran.render.Http404Renderer;
 import com.wthfeng.kurdran.servlet.ApplicationContent;
 import com.wthfeng.kurdran.servlet.annotation.Action;
 import com.wthfeng.kurdran.servlet.annotation.RequestMapping;
@@ -10,9 +9,7 @@ import com.wthfeng.kurdran.servlet.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -47,13 +44,16 @@ public class RequestHandler implements Handler {
         });
     }
 
+    /**
+     * 获取请求对应的方法
+     * @param content 上下文
+     * @param requestResult 保存请求结果的类
+     */
     public void handle(ApplicationContent content,RequestResult requestResult) {
         HttpServletRequest request = content.getRequest();
-        Map<String,String[]> params = request.getParameterMap();
-        requestResult.setRequestParams(doParamMap(params));
-
         String requestURI = request.getRequestURI();
         String requestMethod = request.getMethod();
+        //查找与请求url对应的方法并存入结果类
         methodInfos.forEach(info->
             Arrays.stream(info.getRequestMapping()).forEach((mappings->{
                 if(mappings.equals(requestURI)){
@@ -66,14 +66,6 @@ public class RequestHandler implements Handler {
                 }
             }))
         );
-    }
-
-    public Map<String,Object> doParamMap(Map<String,String[]> originParamMap){
-        Map<String,Object> paramsMap = new HashMap<>();
-        originParamMap.forEach((name,value)->{
-            paramsMap.put(name,value[0]);
-        });
-        return paramsMap;
     }
 
 }

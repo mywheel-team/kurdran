@@ -25,6 +25,20 @@ public class RequestResult {
      */
     private Map<String,Object> requestParams;
 
+    /**
+     * 参数列表
+     */
+    private Object[] realParams;
+
+
+    public Object[] getRealParams() {
+        return realParams;
+    }
+
+    public void setRealParams(Object[] realParams) {
+        this.realParams = realParams;
+    }
+
     public String getRequestMapping() {
         return requestMapping;
     }
