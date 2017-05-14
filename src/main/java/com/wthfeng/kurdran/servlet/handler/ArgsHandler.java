@@ -32,7 +32,7 @@ public class ArgsHandler implements Handler {
         //储存传来的参数
         List<Object> realParamList = new ArrayList<>(method.getParameterCount());
 
-        Arrays.stream(parameters).forEach(p -> realParamList.add(params.get(p.getName())));
+        Arrays.stream(parameters).forEach(p -> realParamList.add(params.get(p.getName())[0]));
 
         //设置参数
         requestResult.setRealParams(realParamList.toArray());

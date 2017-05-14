@@ -30,6 +30,31 @@ public class RequestResult {
      */
     private Object[] realParams;
 
+    /**
+     * 请求结果
+     */
+    private Object requestResult;
+
+    /**
+     * 请求结果类型
+     */
+    private Class<?> requestResultType;
+
+    public Class<?> getRequestResultType() {
+        return requestResultType;
+    }
+
+    public void setRequestResultType(Class<?> requestResultType) {
+        this.requestResultType = requestResultType;
+    }
+
+    public Object getRequestResult() {
+        return requestResult;
+    }
+
+    public void setRequestResult(Object requestResult) {
+        this.requestResult = requestResult;
+    }
 
     public Object[] getRealParams() {
         return realParams;

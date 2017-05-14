@@ -10,7 +10,12 @@
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>com.wthfeng.kurdran.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contentType</param-name>
+            <param-value>json</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
+
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>

@@ -1,6 +1,8 @@
 package com.wthfeng.kurdran.beans;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,11 +29,11 @@ public class BeanImpl<T> implements Bean<T>{
 
     private List<Class<? extends Annotation>> annotations;
 
-    public BeanImpl(String name, Class<? extends Annotation> scope, Class<T> beanType,  List<Class<? extends Annotation>> annotations) {
+    public BeanImpl(String name, Class<? extends Annotation> scope, Class<T> beanType) {
         this.name = name;
         this.scope = scope;
         this.beanType = beanType;
-        this.annotations = annotations;
+        this.annotations = getAnnotation(beanType);
     }
 
     @Override
@@ -64,6 +66,14 @@ public class BeanImpl<T> implements Bean<T>{
     public  List<Class<? extends Annotation>> getAnnotations() {
 
         return annotations;
+    }
+
+    private List<Class<? extends Annotation>> getAnnotation(Class<T> beanType){
+        Annotation[] annotations = beanType.getAnnotations();
+        List<Class<? extends Annotation>> annotationList = new ArrayList<>();
+        Arrays.stream(annotations).forEach(e->annotationList.add(e.annotationType()));
+        return annotationList;
+
     }
 
 

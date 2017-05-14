@@ -8,7 +8,9 @@ import com.wthfeng.kurdran.servlet.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +20,10 @@ import java.util.stream.Collectors;
  */
 public class RequestHandler implements Handler {
 
-    private  List<MethodInfo> methodInfos;
+    private  List<MethodInfo> methodInfos = new ArrayList<>();
+
+
+    private String contextPath;
 
 
     public RequestHandler() {
@@ -34,9 +39,11 @@ public class RequestHandler implements Handler {
                     MethodInfo methodInfo = new MethodInfo();
                     methodInfo.setInvokeMethod(m);
                     methodInfo.setMethodType(MthMappingAnnotation.method());
-                    String[] reqMappings =  (String[]) Arrays.stream(MthMappingAnnotation.value()).map(e->
-                        e=prefixMapping+e
-                    ).collect(Collectors.toList()).toArray();
+                    List<String> mappingList = Arrays.stream(MthMappingAnnotation.value()).map(e->
+                            prefixMapping+e
+                    ).collect(Collectors.toList());
+
+                    String[] reqMappings = mappingList.toArray(new String[0]);
                     methodInfo.setRequestMapping(reqMappings);
                     methodInfos.add(methodInfo);
                 }
@@ -52,15 +59,19 @@ public class RequestHandler implements Handler {
     public void handle(ApplicationContent content,RequestResult requestResult) {
         HttpServletRequest request = content.getRequest();
         String requestURI = request.getRequestURI();
+
+        System.out.println(request);
         String requestMethod = request.getMethod();
+        contextPath = request.getContextPath();
         //查找与请求url对应的方法并存入结果类
         methodInfos.forEach(info->
-            Arrays.stream(info.getRequestMapping()).forEach((mappings->{
-                if(mappings.equals(requestURI)){
+            Arrays.stream(info.getRequestMapping()).forEach((mapping->{
+                String requestMapping = contextPath+mapping;
+                if(requestMapping.equals(requestURI)){
                     Arrays.stream(info.getMethodType()).forEach((mthType->{
                        if(requestMethod.equals(mthType.name())){
                            requestResult.setInvokeMethod(info.getInvokeMethod());
-                           requestResult.setRequestMapping(mappings);
+                           requestResult.setRequestMapping(requestMapping);
                         }
                     }));
                 }

@@ -21,7 +21,7 @@ public class HelloAction {
 
     @RequestMapping(value = "/hello2", method = RequestMethod.GET)
     public String test2(String name) {
-
+        System.out.println(name);
         return name;
     }
 

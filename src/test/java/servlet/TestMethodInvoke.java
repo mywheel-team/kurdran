@@ -50,7 +50,7 @@ public class TestMethodInvoke {
         Arrays.stream(parameters).forEach(parameter ->System.out.println(parameter.getName()));
 
         try {
-            System.out.println( method.invoke(clazz.newInstance(),23,"hello"));
+            System.out.println( method.invoke(method.getDeclaringClass().newInstance(),23,"hello"));
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

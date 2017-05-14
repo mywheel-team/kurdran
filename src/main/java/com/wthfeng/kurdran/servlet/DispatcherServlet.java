@@ -3,10 +3,7 @@ package com.wthfeng.kurdran.servlet;
 import com.wthfeng.kurdran.render.Http404Renderer;
 import com.wthfeng.kurdran.render.Http500Renderer;
 import com.wthfeng.kurdran.render.Renderer;
-import com.wthfeng.kurdran.servlet.handler.ArgsHandler;
-import com.wthfeng.kurdran.servlet.handler.Handler;
-import com.wthfeng.kurdran.servlet.handler.RequestHandler;
-import com.wthfeng.kurdran.servlet.handler.RequestResult;
+import com.wthfeng.kurdran.servlet.handler.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,8 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author wangtonghe
@@ -31,11 +26,17 @@ public class DispatcherServlet extends HttpServlet {
 
     private ArgsHandler argsHandler;
 
+    private MethodInvokeHandler methodHandler;
+
+    private RenderHandler renderHandler;
+
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         logger.debug("servlet init start ...");
+
         initStrategies();
+        System.out.println("servlet 开始");
 
 
     }
@@ -52,6 +53,9 @@ public class DispatcherServlet extends HttpServlet {
     private void initStrategies() {
         requestHandler = new RequestHandler();
         argsHandler = new ArgsHandler();
+        methodHandler = new MethodInvokeHandler();
+        requestHandler = new RequestHandler();
+
 
     }
 
@@ -63,11 +67,13 @@ public class DispatcherServlet extends HttpServlet {
             requestHandler.handle(content, requestResult);
             if (requestResult.getRequestMapping() != null) {
                 argsHandler.handle(content,requestResult);
+                methodHandler.handle(content,requestResult);
+                renderHandler.handle(content,requestResult);
+
 
             }
-
         }catch (Exception e){
-            content.setRenderer(new Http500Renderer());
+            content.setRenderer(new Http500Renderer(e));
         }
         doResult(content);
 
