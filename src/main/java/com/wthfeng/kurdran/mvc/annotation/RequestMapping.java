@@ -1,6 +1,6 @@
-package com.wthfeng.kurdran.servlet.annotation;
+package com.wthfeng.kurdran.mvc.annotation;
 
-import com.wthfeng.kurdran.servlet.RequestMethod;
+import com.wthfeng.kurdran.mvc.http.HttpMethod;
 
 import java.lang.annotation.*;
 
@@ -20,6 +20,6 @@ public @interface RequestMapping {
     /**
      *the request method
      */
-    RequestMethod[] method() default {};
+    HttpMethod[] method() default {};
 
 }

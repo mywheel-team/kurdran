@@ -1,16 +1,15 @@
-package com.wthfeng.kurdran.servlet.handler;
+package com.wthfeng.kurdran.mvc.handler;
 
 import com.wthfeng.kurdran.beans.Bean;
 import com.wthfeng.kurdran.beans.factory.BeanFactoryImpl;
-import com.wthfeng.kurdran.servlet.ApplicationContent;
-import com.wthfeng.kurdran.servlet.annotation.Action;
-import com.wthfeng.kurdran.servlet.annotation.RequestMapping;
+import com.wthfeng.kurdran.mvc.ApplicationContent;
+import com.wthfeng.kurdran.mvc.annotation.Action;
+import com.wthfeng.kurdran.mvc.annotation.RequestMapping;
+import com.wthfeng.kurdran.mvc.http.HttpRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,8 +56,8 @@ public class RequestHandler implements Handler {
      * @param requestResult 保存请求结果的类
      */
     public void handle(ApplicationContent content,RequestResult requestResult) {
-        HttpServletRequest request = content.getRequest();
-        String requestURI = request.getRequestURI();
+        HttpRequest request = content.getRequest();
+        String requestURI = request.getUri();
 
         System.out.println(request);
         String requestMethod = request.getMethod();

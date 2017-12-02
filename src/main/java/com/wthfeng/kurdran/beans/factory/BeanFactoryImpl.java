@@ -1,8 +1,8 @@
 package com.wthfeng.kurdran.beans.factory;
 
+import com.wthfeng.kurdran.Kurdran;
 import com.wthfeng.kurdran.beans.Bean;
 import com.wthfeng.kurdran.beans.BeanImpl;
-import com.wthfeng.test.HelloAction;
 
 import javax.inject.Singleton;
 import java.lang.annotation.Annotation;
@@ -25,7 +25,7 @@ public class BeanFactoryImpl implements BeanFactory {
         /**
          * 模拟bean工厂
          */
-        Class clazz = HelloAction.class;
+        Class clazz = null;
         Annotation[] annotations = clazz.getAnnotations();
         List<Annotation> annotationList = new ArrayList<>(Arrays.asList(annotations));
         String beanName = clazz.getSimpleName();
@@ -64,7 +64,7 @@ public class BeanFactoryImpl implements BeanFactory {
 
 
     public static void main(String[] args) {
-        Class<HelloAction> clazz = HelloAction.class;
+        Class<Kurdran> clazz = Kurdran.class;
         Annotation[] annotations =  clazz.getAnnotations();
         Arrays.stream(annotations).forEach(e->{
             System.out.println(e.annotationType());

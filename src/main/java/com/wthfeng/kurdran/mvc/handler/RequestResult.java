@@ -1,4 +1,4 @@
-package com.wthfeng.kurdran.servlet.handler;
+package com.wthfeng.kurdran.mvc.handler;
 
 import java.lang.reflect.Method;
 import java.util.Map;

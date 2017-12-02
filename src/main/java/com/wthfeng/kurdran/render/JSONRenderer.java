@@ -1,6 +1,6 @@
 package com.wthfeng.kurdran.render;
 
-import com.wthfeng.kurdran.servlet.ApplicationContent;
+import com.wthfeng.kurdran.mvc.ApplicationContent;
 
 import java.util.Map;
 

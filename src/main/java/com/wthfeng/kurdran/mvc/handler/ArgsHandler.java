@@ -1,8 +1,8 @@
-package com.wthfeng.kurdran.servlet.handler;
+package com.wthfeng.kurdran.mvc.handler;
 
-import com.wthfeng.kurdran.servlet.ApplicationContent;
+import com.wthfeng.kurdran.mvc.ApplicationContent;
+import com.wthfeng.kurdran.mvc.http.HttpRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
@@ -21,8 +21,8 @@ public class ArgsHandler implements Handler {
     public void handle(ApplicationContent content, RequestResult requestResult) {
 
         //处理传来的参数
-        HttpServletRequest request = content.getRequest();
-        Map<String, String[]> params = request.getParameterMap();
+        HttpRequest request = content.getRequest();
+        Map<String, List<String>> params = request.getParamsMap();
         requestResult.setRequestParams(doParamMap(params));
 
         Method method = requestResult.getInvokeMethod();
@@ -32,17 +32,17 @@ public class ArgsHandler implements Handler {
         //储存传来的参数
         List<Object> realParamList = new ArrayList<>(method.getParameterCount());
 
-        Arrays.stream(parameters).forEach(p -> realParamList.add(params.get(p.getName())[0]));
+        Arrays.stream(parameters).forEach(p -> realParamList.add(params.get(p.getName()).get(0)));
 
         //设置参数
         requestResult.setRealParams(realParamList.toArray());
 
     }
 
-    private Map<String, Object> doParamMap(Map<String, String[]> originParamMap) {
+    private Map<String, Object> doParamMap(Map<String, List<String>> originParamMap) {
         Map<String, Object> paramsMap = new HashMap<>();
         //只处理遇到的第一个参数
-        originParamMap.forEach((name, value) -> paramsMap.put(name, value[0]));
+        originParamMap.forEach((name, value) -> paramsMap.put(name, value.get(0)));
         return paramsMap;
     }
 }

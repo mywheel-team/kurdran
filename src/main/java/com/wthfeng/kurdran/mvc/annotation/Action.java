@@ -1,4 +1,4 @@
-package com.wthfeng.kurdran.servlet.annotation;
+package com.wthfeng.kurdran.mvc.annotation;
 
 import java.lang.annotation.*;
 

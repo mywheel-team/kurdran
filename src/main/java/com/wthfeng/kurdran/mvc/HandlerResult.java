@@ -1,4 +1,4 @@
-package com.wthfeng.kurdran.servlet;
+package com.wthfeng.kurdran.mvc;
 
 import java.util.Set;
 

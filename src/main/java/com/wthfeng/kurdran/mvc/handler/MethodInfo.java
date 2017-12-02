@@ -1,9 +1,9 @@
-package com.wthfeng.kurdran.servlet.handler;
+package com.wthfeng.kurdran.mvc.handler;
 
-import com.wthfeng.kurdran.servlet.RequestMethod;
+
+import com.wthfeng.kurdran.mvc.http.HttpMethod;
 
 import java.lang.reflect.Method;
-import java.util.Map;
 
 /**
  * 方法信息，主要为注解信息
@@ -16,7 +16,7 @@ public class MethodInfo {
 
     private String[] requestMapping;
 
-    private RequestMethod[] methodType;
+    private HttpMethod[] methodType;
 
 
     public Method getInvokeMethod() {
@@ -35,11 +35,11 @@ public class MethodInfo {
         this.requestMapping = requestMapping;
     }
 
-    public RequestMethod[] getMethodType() {
+    public HttpMethod[] getMethodType() {
         return methodType;
     }
 
-    public void setMethodType(RequestMethod[] methodType) {
+    public void setMethodType(HttpMethod[] methodType) {
         this.methodType = methodType;
     }
 }

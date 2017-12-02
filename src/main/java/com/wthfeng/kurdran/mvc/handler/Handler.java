@@ -1,6 +1,6 @@
-package com.wthfeng.kurdran.servlet.handler;
+package com.wthfeng.kurdran.mvc.handler;
 
-import com.wthfeng.kurdran.servlet.ApplicationContent;
+import com.wthfeng.kurdran.mvc.ApplicationContent;
 
 /**
  * @author wangtonghe
