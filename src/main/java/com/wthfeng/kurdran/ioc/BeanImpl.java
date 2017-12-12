@@ -1,4 +1,4 @@
-package com.wthfeng.kurdran.beans;
+package com.wthfeng.kurdran.ioc;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
  * @author wangtonghe
  * @date 2017/5/4 21:17
  */
-public class BeanImpl<T> implements Bean<T>{
+public class BeanImpl<T> implements Bean<T> {
 
 
     /**

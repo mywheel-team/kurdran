@@ -1,15 +1,9 @@
-package com.wthfeng.kurdran.beans.factory;
+package com.wthfeng.kurdran.ioc;
 
-import com.wthfeng.kurdran.Kurdran;
-import com.wthfeng.kurdran.beans.Bean;
-import com.wthfeng.kurdran.beans.BeanImpl;
+import com.wthfeng.kurdran.util.DynamicScanUtil;
 
-import javax.inject.Singleton;
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -21,19 +15,32 @@ public class BeanFactoryImpl implements BeanFactory {
     private Map<String, Bean<?>> beans = new ConcurrentHashMap<>();
 
 
-    {
-        /**
-         * 模拟bean工厂
-         */
-        Class clazz = null;
-        Annotation[] annotations = clazz.getAnnotations();
-        List<Annotation> annotationList = new ArrayList<>(Arrays.asList(annotations));
-        String beanName = clazz.getSimpleName();
-        beanName = beanName.substring(0, 1).toLowerCase() + beanName.substring(1);
-        Bean bean = new BeanImpl(beanName, Singleton.class, clazz);
-        beans.put(beanName, bean);
+   public static BeanFactory newInstance(Class<?> clazz)throws Exception{
+        Set<ClassInfo> classInfos = DynamicScanUtil.scanByClassName(clazz);
+        Map<String,Bean<?>> beans = new HashMap<>();
+
+        classInfos.forEach((classInfo)->{
+            Class<?> clz = classInfo.getClazz();
+
+
+
+
+        });
+        return new BeanFactoryImpl(beans);
+    }
+
+
+    private BeanFactoryImpl(Map<String,Bean<?>> beans){
+       this.beans=beans;
 
     }
+
+    public BeanFactoryImpl(){
+
+    }
+
+
+
 
     @Override
     public Bean getBean(String name) {
@@ -63,15 +70,6 @@ public class BeanFactoryImpl implements BeanFactory {
     }
 
 
-    public static void main(String[] args) {
-        Class<Kurdran> clazz = Kurdran.class;
-        Annotation[] annotations =  clazz.getAnnotations();
-        Arrays.stream(annotations).forEach(e->{
-            System.out.println(e.annotationType());
-        });
-
-
-    }
 
 
 

@@ -1,7 +1,7 @@
 package com.wthfeng.kurdran.mvc.handler;
 
-import com.wthfeng.kurdran.beans.Bean;
-import com.wthfeng.kurdran.beans.factory.BeanFactoryImpl;
+import com.wthfeng.kurdran.ioc.Bean;
+import com.wthfeng.kurdran.ioc.BeanFactoryImpl;
 import com.wthfeng.kurdran.mvc.ApplicationContent;
 import com.wthfeng.kurdran.mvc.annotation.Action;
 import com.wthfeng.kurdran.mvc.annotation.RequestMapping;

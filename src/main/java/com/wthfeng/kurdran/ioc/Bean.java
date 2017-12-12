@@ -1,4 +1,4 @@
-package com.wthfeng.kurdran.beans;
+package com.wthfeng.kurdran.ioc;
 
 import java.lang.annotation.Annotation;
 import java.util.List;

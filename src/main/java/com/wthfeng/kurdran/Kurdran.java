@@ -26,7 +26,8 @@ public class Kurdran {
     /**
      * 服务启动方法
      */
-    public void start(int port){
+    public void start(Class<?> clazz,int port){
+
         try {
             NettyServer server = new NettyServer(getPort(port));
             server.start();
@@ -36,8 +37,8 @@ public class Kurdran {
 
     }
 
-    public void start(){
-        start(DEFAULT_PORT);
+    public void start(Class<?> clazz){
+        start(clazz,DEFAULT_PORT);
     }
 
 
