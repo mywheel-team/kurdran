@@ -1,5 +1,6 @@
 package com.wthfeng.kurdran.ioc;
 
+import javax.inject.Singleton;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +35,14 @@ public class BeanImpl<T> implements Bean<T> {
         this.scope = scope;
         this.beanType = beanType;
         this.annotations = getAnnotation(beanType);
+    }
+
+    public BeanImpl(String name,  Class<T> beanType){
+        this.name = name;
+        this.beanType = beanType;
+        this.annotations = getAnnotation(beanType);
+        this.scope = Singleton.class;
+
     }
 
     @Override

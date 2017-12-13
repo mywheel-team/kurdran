@@ -3,7 +3,9 @@ package com.wthfeng.kurdran.ioc;
 import com.wthfeng.kurdran.util.DynamicScanUtil;
 
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -15,31 +17,21 @@ public class BeanFactoryImpl implements BeanFactory {
     private Map<String, Bean<?>> beans = new ConcurrentHashMap<>();
 
 
-   public static BeanFactory newInstance(Class<?> clazz)throws Exception{
-        Set<ClassInfo> classInfos = DynamicScanUtil.scanByClassName(clazz);
-        Map<String,Bean<?>> beans = new HashMap<>();
+    public static BeanFactory newInstance(Class<?> clazz) throws Exception {
+        Map<String, Bean<?>> beans = DynamicScanUtil.scanByClassName(clazz);
 
-        classInfos.forEach((classInfo)->{
-            Class<?> clz = classInfo.getClazz();
-
-
-
-
-        });
         return new BeanFactoryImpl(beans);
     }
 
 
-    private BeanFactoryImpl(Map<String,Bean<?>> beans){
-       this.beans=beans;
+    private BeanFactoryImpl(Map<String, Bean<?>> beans) {
+        this.beans = beans;
 
     }
 
-    public BeanFactoryImpl(){
+    public BeanFactoryImpl() {
 
     }
-
-
 
 
     @Override
@@ -52,7 +44,7 @@ public class BeanFactoryImpl implements BeanFactory {
         List<Bean<?>> list = new ArrayList<>();
         for (Bean<?> bean : beans.values()) {
             List<Class<? extends Annotation>> annotationList = bean.getAnnotations();
-            if(annotationList.contains(annotation)){
+            if (annotationList.contains(annotation)) {
                 list.add(bean);
             }
         }
@@ -68,14 +60,6 @@ public class BeanFactoryImpl implements BeanFactory {
         }
         return null;
     }
-
-
-
-
-
-
-
-
 
 
 }

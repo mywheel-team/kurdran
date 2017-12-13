@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import  io.netty.buffer.Unpooled;
+import io.netty.buffer.Unpooled;
 
 import static io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE;
 
@@ -42,15 +42,15 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         System.out.println("headMap = " + headMap);
         System.out.println("keepAlive = " + keepAlive);
 
-        Map<String,Object> data = new HashMap<>();
-        data.put("code",0);
-        data.put("data","hello world");
+        Map<String, Object> data = new HashMap<>();
+        data.put("code", 0);
+        data.put("data", "hello world");
 
 
         ByteBuf byteBuf = Unpooled.wrappedBuffer(JSON.toJSONString(data).getBytes());
-        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK,byteBuf);
+        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, byteBuf);
 
-        response.headers().set(HttpHeaderNames.CONTENT_TYPE,"application/json;charset=UTF-8");
+        response.headers().set(HttpHeaderNames.CONTENT_TYPE, "application/json;charset=UTF-8");
         if (!keepAlive) {
             ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
         } else {

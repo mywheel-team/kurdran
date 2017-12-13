@@ -1,6 +1,6 @@
 package com.wthfeng.kurdran;
 
-import com.wthfeng.kurdran.server.netty.NettyServer;
+import com.wthfeng.kurdran.server.KurdranServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,8 +29,8 @@ public class Kurdran {
     public void start(Class<?> clazz,int port){
 
         try {
-            NettyServer server = new NettyServer(getPort(port));
-            server.start();
+            KurdranServer server = new KurdranServer(getPort(port));
+            server.start(clazz);
         } catch (Exception e) {
            logger.error("服务器启动错误",e);
         }
