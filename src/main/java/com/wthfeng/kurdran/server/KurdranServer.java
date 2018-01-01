@@ -1,5 +1,6 @@
 package com.wthfeng.kurdran.server;
 
+import com.wthfeng.kurdran.Kurdran;
 import com.wthfeng.kurdran.ioc.Bean;
 import com.wthfeng.kurdran.ioc.BeanFactory;
 import com.wthfeng.kurdran.ioc.BeanFactoryImpl;
@@ -24,23 +25,26 @@ import java.util.List;
  */
 public class KurdranServer {
 
+    private Kurdran kurdran;
+
     private int port;
 
-    public KurdranServer(int port) {
-        this.port = port;
+
+    public KurdranServer(Kurdran kurdran) {
+        this.kurdran = kurdran;
+        this.port = kurdran.port;
+
     }
 
 
     public void start(Class<?> startClass) throws Exception {
-        initBean(startClass);
+        initBean(startClass);  //初始化bean
         startServer();
 
     }
 
 
     private void initBean(Class<?> startClass) throws Exception{
-        BeanFactory beanFactory = BeanFactoryImpl.newInstance(startClass);
-        List<Bean<?>> beans = beanFactory.getBeans(Action.class);
 
 
 
@@ -56,7 +60,7 @@ public class KurdranServer {
                     .channel(NioServerSocketChannel.class)
                     .localAddress(new InetSocketAddress(port))
                     .handler(new LoggingHandler(LogLevel.DEBUG))
-                    .childHandler(new NettyHandlerInitializer());
+                    .childHandler(new NettyHandlerInitializer(kurdran));
             Channel channel = server.bind().sync().channel();
             channel.closeFuture().sync();
         } finally {

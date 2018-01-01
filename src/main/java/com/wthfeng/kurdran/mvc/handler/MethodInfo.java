@@ -16,7 +16,7 @@ public class MethodInfo {
 
     private String[] requestMapping;
 
-    private HttpMethod[] methodType;
+    private HttpMethod methodType;
 
 
     public Method getInvokeMethod() {
@@ -35,11 +35,11 @@ public class MethodInfo {
         this.requestMapping = requestMapping;
     }
 
-    public HttpMethod[] getMethodType() {
+    public HttpMethod getMethodType() {
         return methodType;
     }
 
-    public void setMethodType(HttpMethod[] methodType) {
+    public void setMethodType(HttpMethod methodType) {
         this.methodType = methodType;
     }
 }

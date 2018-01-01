@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public class RequestHandler implements Handler {
 
-    private  List<MethodInfo> methodInfos = new ArrayList<>();
+    private List<MethodInfo> methodInfos = new ArrayList<>();
 
 
     private String contextPath;
@@ -30,16 +30,16 @@ public class RequestHandler implements Handler {
         beans.forEach(bean -> {
             Class<?> clazz = bean.getBeanType();
             Method[] methods = clazz.getMethods();
-            Arrays.stream(methods).forEach(m->{
-                RequestMapping MthMappingAnnotation= m.getAnnotation(RequestMapping.class);
-                if(MthMappingAnnotation!=null){
-                    RequestMapping  reqMappingAnnotation = clazz.getAnnotation(RequestMapping.class);
-                    String prefixMapping = reqMappingAnnotation.value().length>0?reqMappingAnnotation.value()[0]:"";
+            Arrays.stream(methods).forEach(m -> {
+                RequestMapping MthMappingAnnotation = m.getAnnotation(RequestMapping.class);
+                if (MthMappingAnnotation != null) {
+                    RequestMapping reqMappingAnnotation = clazz.getAnnotation(RequestMapping.class);
+                    String prefixMapping = reqMappingAnnotation.value().length > 0 ? reqMappingAnnotation.value()[0] : "";
                     MethodInfo methodInfo = new MethodInfo();
                     methodInfo.setInvokeMethod(m);
                     methodInfo.setMethodType(MthMappingAnnotation.method());
-                    List<String> mappingList = Arrays.stream(MthMappingAnnotation.value()).map(e->
-                            prefixMapping+e
+                    List<String> mappingList = Arrays.stream(MthMappingAnnotation.value()).map(e ->
+                            prefixMapping + e
                     ).collect(Collectors.toList());
 
                     String[] reqMappings = mappingList.toArray(new String[0]);
@@ -52,10 +52,11 @@ public class RequestHandler implements Handler {
 
     /**
      * 获取请求对应的方法
-     * @param content 上下文
+     *
+     * @param content       上下文
      * @param requestResult 保存请求结果的类
      */
-    public void handle(ApplicationContent content,RequestResult requestResult) {
+    public void handle(ApplicationContent content, RequestResult requestResult) {
         HttpRequest request = content.getRequest();
         String requestURI = request.getUri();
 
@@ -63,18 +64,16 @@ public class RequestHandler implements Handler {
         String requestMethod = request.getMethod();
         contextPath = request.getContextPath();
         //查找与请求url对应的方法并存入结果类
-        methodInfos.forEach(info->
-            Arrays.stream(info.getRequestMapping()).forEach((mapping->{
-                String requestMapping = contextPath+mapping;
-                if(requestMapping.equals(requestURI)){
-                    Arrays.stream(info.getMethodType()).forEach((mthType->{
-                       if(requestMethod.equals(mthType.name())){
-                           requestResult.setInvokeMethod(info.getInvokeMethod());
-                           requestResult.setRequestMapping(requestMapping);
+        methodInfos.forEach(info ->
+                Arrays.stream(info.getRequestMapping()).forEach((mapping -> {
+                    String requestMapping = contextPath + mapping;
+                    if (requestMapping.equals(requestURI)) {
+                        if (requestMethod.equals(info.getInvokeMethod())) {
+                            requestResult.setInvokeMethod(info.getInvokeMethod());
+                            requestResult.setRequestMapping(requestMapping);
                         }
-                    }));
-                }
-            }))
+                    }
+                }))
         );
     }
 

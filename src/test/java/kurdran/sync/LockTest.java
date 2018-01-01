@@ -9,7 +9,7 @@ import java.util.concurrent.CountDownLatch;
 public class LockTest {
 
     private static int total;
-    static int num = 1000000;
+    static int num = 10000000;
     static CountDownLatch latch = new CountDownLatch(100);
     static MyLock myLock = new MyLock();
 
@@ -38,11 +38,11 @@ public class LockTest {
         @Override
         public void run() {
             for (int i = 0; i < num; i++) {
-                myLock.lock();
+//                myLock.lock();
                 try {
                     total++;
                 } finally {
-                    myLock.unlock();
+//                    myLock.unlock();
 
                 }
             }

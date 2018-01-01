@@ -22,4 +22,10 @@ public class HelloAction {
         return result;
     }
 
+    @RequestMapping(value = "/getParam")
+    public String getParam(String name){
+        return name;
+
+    }
+
 }

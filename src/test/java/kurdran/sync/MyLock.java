@@ -9,7 +9,7 @@ import java.util.concurrent.locks.Lock;
  * @author wangtonghe
  * @date 2017/12/10 16:49
  */
-public class MyLock implements Lock {
+public class MyLock {
 
     private Sync sync = new Sync();
 
@@ -19,7 +19,7 @@ public class MyLock implements Lock {
         @Override
         protected boolean tryAcquire(int arg) {
             //若状态为1，说明有其他线程已占有锁，直接返回false
-            if(getState()==arg){
+            if (getState() == arg) {
                 return false;
             }
             //若状态为0，将其设为1，表示占有锁
@@ -32,41 +32,30 @@ public class MyLock implements Lock {
             setState(0);
             return true;
         }
+
+        @Override
+        protected boolean isHeldExclusively() {
+            return getState()==1;
+        }
+
+        Condition newCondition() {
+            return new ConditionObject();
+        }
     }
 
-    //其他Lock接口方法，直接调用Sync类实现
-
-    @Override
+    //加锁方法
     public void lock() {
         sync.acquire(1);
 
     }
 
-    @Override
-    public void lockInterruptibly() throws InterruptedException {
-        sync.acquireInterruptibly(1);
-
-    }
-
-    @Override
-    public boolean tryLock() {
-        return sync.tryAcquire(1);
-    }
-
-    @Override
-    public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
-        return sync.tryAcquireNanos(1,unit.toNanos(time));
-    }
-
-
-    @Override
+    //解锁方法
     public void unlock() {
         sync.release(1);
 
     }
 
-    @Override
-    public Condition newCondition() {
-        return null;
+    public Condition getCondition(){
+        return sync.newCondition();
     }
 }

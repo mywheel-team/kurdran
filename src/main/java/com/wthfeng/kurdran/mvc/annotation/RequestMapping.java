@@ -20,6 +20,6 @@ public @interface RequestMapping {
     /**
      *the request method
      */
-    HttpMethod[] method() default {};
+    HttpMethod method() default HttpMethod.GET;
 
 }
